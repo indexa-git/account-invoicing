@@ -7,14 +7,9 @@ from odoo import api, fields, models
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
-    discount_total = fields.Monetary(
-        compute="_compute_discount_amount",
-        # store=True,
-    )
+    discount_total = fields.Monetary(compute="_compute_discount_amount", store=True)
     price_total_no_discount = fields.Monetary(
-        compute="_compute_discount_amount",
-        string="Total Without Discount",
-        # store=True,
+        compute="_compute_discount_amount", string="Total Without Discount", store=True
     )
 
     @api.depends("discount", "price_total")

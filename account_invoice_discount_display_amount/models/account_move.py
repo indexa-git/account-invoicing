@@ -10,13 +10,13 @@ class AccountMove(models.Model):
     discount_total = fields.Monetary(
         compute="_compute_discount_total",
         currency_field="currency_id",
-        # store=True,
+        store=True,
     )
     price_total_no_discount = fields.Monetary(
         compute="_compute_discount_total",
         string="Total Without Discount",
         currency_field="currency_id",
-        # store=True,
+        store=True,
     )
 
     @api.depends(
@@ -27,12 +27,10 @@ class AccountMove(models.Model):
 
         # Invoices with discount
         for invoice in invoices_discount:
-            # discount_total = sum(invoice.invoice_line_ids.mapped("discount_total"))
-            discount_total = 0
-            # price_total_no_discount = sum(
-            #     invoice.invoice_line_ids.mapped("price_total_no_discount")
-            # )
-            price_total_no_discount = 0
+            discount_total = sum(invoice.invoice_line_ids.mapped("discount_total"))
+            price_total_no_discount = sum(
+                invoice.invoice_line_ids.mapped("price_total_no_discount")
+            )
             invoice.update(
                 {
                     "discount_total": discount_total,
